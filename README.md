@@ -13,7 +13,7 @@ The Organizations Security Department has approved the below module for use
 
 module "ec2_cluster" {
   source  = "app.terraform.io/aharness-org/ec2-instance/aws"
-  version = "1.14.0"
+  version = "1.15.0"
 
   name                   = "my-consumer-cluster"
   instance_count         = 2
