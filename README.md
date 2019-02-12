@@ -7,8 +7,33 @@ These types of resources are supported:
 * [EC2 instance](https://www.terraform.io/docs/providers/aws/r/instance.html)
 
 ## Usage
-
+The Organizations Security Department has approved the below module for use
+!!!NOTE: YOU MUST CHANGE THE SOURCE LINE TO YOUR ORG (not aharness-org)
 ```hcl
+
+module "ec2_cluster" {
+  source  = "app.terraform.io/aharness-org/ec2-instance/aws"
+  version = "1.14.0"
+
+  name                   = "my-consumer-cluster"
+  instance_count         = 2
+
+  ami                    = "${data.aws_ami.ubuntu.id}"
+  instance_type          = "t2.micro"
+  monitoring             = true
+
+  vpc_security_group_ids = ["${data.terraform_remote_state.network.default_security_group_id}"]
+  subnet_id              = "${data.terraform_remote_state.network.research_subnet_id}"
+
+  tags = {
+    Terraform = "true"
+    Environment = "dev"
+  }
+}
+
+
+
+
 module "ec2_cluster" {
   source                 = "terraform-aws-modules/ec2-instance/aws"
   version                = "1.12.0"
